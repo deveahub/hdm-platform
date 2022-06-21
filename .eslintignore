@@ -1,0 +1,12 @@
+node_modules
+.eslintrc.js
+mocks
+.prettierrc
+.next
+_error.js
+next.config.js
+sentry.client.config.js
+sentry.server.config.js
+commitlint.config.js
+scripts
+next-sitemap.js
