@@ -1,8 +1,12 @@
 export interface User {
-	id: string;
-	userId: string;
-	name: string;
-	surname: string;
-	email: string;
-	phone: string;
+  _id: string;
+  userId: string;
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+}
+
+export interface LoginAPIResponse extends User {
+  token: string;
 }

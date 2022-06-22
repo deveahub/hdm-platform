@@ -1,22 +1,22 @@
 import { GetServerSideProps } from 'next';
 
 const getServerSideProps: GetServerSideProps = async ({
-	req: {
-		cookies: { token },
-	},
+  req: {
+    cookies: { token },
+  },
 }) => {
-	if (token) {
-		return {
-			redirect: {
-				permanent: true,
-				destination: '/',
-			},
-		};
-	}
+  if (token) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/',
+      },
+    };
+  }
 
-	return {
-		props: {},
-	};
+  return {
+    props: {},
+  };
 };
 
 export default getServerSideProps;

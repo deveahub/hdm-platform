@@ -1,18 +1,19 @@
 import { InferType } from 'yup';
 
+import { userEmailValidation } from '@/pods/user/fieldValidation';
 import yup from '@/yup';
 
 const resetPasswordValidationSchema = yup.object({
-	email: yup.string().required(),
+  email: userEmailValidation.required(),
 });
 
 export type ResetPasswordValidationSchema = InferType<
-	typeof resetPasswordValidationSchema
+  typeof resetPasswordValidationSchema
 >;
 
 export const RESET_PASSWORD_VALIDATION_SCHEMA_INITIAL_VALUES: ResetPasswordValidationSchema =
-	{
-		email: '',
-	};
+  {
+    email: '',
+  };
 
 export default resetPasswordValidationSchema;

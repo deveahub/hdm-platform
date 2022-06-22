@@ -4,11 +4,12 @@ import { useRecoilValue } from 'recoil';
 
 import AnchorLink from '@/components/AnchorLink';
 import Button from '@/components/Button';
-import TextError from '@/components/TextError';
 import FieldSet from '@/components/Fieldset';
+import FormCheckBox from '@/components/form/FormCheckBox';
 import FormInput from '@/components/form/FormInput';
 import Spinner from '@/components/Spinner';
 import Stack from '@/components/Stack';
+import TextError from '@/components/TextError';
 import loginValidationSchema, {
 	LOGIN_VALIDATION_SCHEMA_INITIAL_VALUES,
 	LoginValidationSchemaValues,
@@ -51,6 +52,7 @@ const LoginForm = () => {
 							placeholder="Contraseña"
 							autoComplete="current-password"
 						/>
+						<FormCheckBox name="keepSession" label="Mantener sesión activa" />
 					</FieldSet>
 					{user.type === 'error' && <TextError>{user.error}</TextError>}
 					<Button

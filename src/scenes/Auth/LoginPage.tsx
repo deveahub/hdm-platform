@@ -9,23 +9,23 @@ import Layout from './components/Layout';
 import LoginForm from './components/LoginForm';
 
 const LoginPage = () => {
-	const isUserLogged = useRecoilValue(isUserLoggedSelector);
-	const { push } = useRouter();
+  const isUserLogged = useRecoilValue(isUserLoggedSelector);
+  const { push } = useRouter();
 
-	// useEffect(() => {
-	// 	if (isUserLogged) {
-	// 		push('/');
-	// 	}
-	// }, [isUserLogged, push]);
+  useEffect(() => {
+    if (isUserLogged) {
+      push('/');
+    }
+  }, [isUserLogged, push]);
 
-	return (
-		<Layout title="Acceder">
-			<Head>
-				<title>Acceso - HDM Eventos</title>
-			</Head>
-			<LoginForm />
-		</Layout>
-	);
+  return (
+    <Layout title="Acceder">
+      <Head>
+        <title>Acceso - HDM Eventos</title>
+      </Head>
+      <LoginForm />
+    </Layout>
+  );
 };
 
 export default LoginPage;

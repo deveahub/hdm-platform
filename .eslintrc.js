@@ -32,7 +32,7 @@ module.exports = {
     "arrow-body-style": ["error", "as-needed"],
     "import/extensions": "off",
     'camelcase': 'off',
-    
+    'no-underscore-dangle': 'off'
   },
   settings: {
     'import/resolver': {

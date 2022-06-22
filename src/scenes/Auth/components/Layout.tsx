@@ -12,6 +12,7 @@ const Container = styled('div', {
 	gap: 2,
 	alignContent: 'center',
 	px: 2,
+	mb: 2,
 });
 
 const ChildrenContainer = styled(Stack, {

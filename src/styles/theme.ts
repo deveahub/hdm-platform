@@ -1,4 +1,4 @@
-import { ConfigType } from '@stitches/react/types/config';
+// import { ConfigType } from '@stitches/react/types/config';
 
 const theme = {
 	colors: {
