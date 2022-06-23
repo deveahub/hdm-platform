@@ -1,5 +1,6 @@
 import { NextApiHandler } from 'next';
-import { ApiError } from 'next/dist/server/api-utils';
+
+import parseAPIError from './parseAPIError';
 
 type Method = 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
 
@@ -19,23 +20,8 @@ const makeAPIHandler =
 
       await handler(...props);
     } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.statusCode).json({
-          error: error.message,
-        });
-        return;
-      }
-
-      if (error instanceof Error) {
-        res.status(400).json({
-          error: error.message,
-        });
-        return;
-      }
-
-      res.status(500).json({
-        error: 'Error generico',
-      });
+      const [status, properError] = parseAPIError(error);
+      res.status(status).json(properError);
     }
   };
 

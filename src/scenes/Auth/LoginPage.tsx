@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
+import cookies from '@/pods/auth/cookies';
 import { isUserLoggedSelector } from '@/pods/user/selectors';
 
 import Layout from './components/Layout';
@@ -14,7 +15,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isUserLogged) {
-      push('/');
+      push(cookies.getFromPath() || '/', undefined, { shallow: true });
+      cookies.removeFromPath();
     }
   }, [isUserLogged, push]);
 

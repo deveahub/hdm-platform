@@ -1,4 +1,4 @@
-export type AsyncStatusDefaultError = Error | string;
+export type AsyncStatusDefaultError = string | Record<string, string>;
 
 export interface SuccessAsyncStatus<Data> {
   type: 'success';

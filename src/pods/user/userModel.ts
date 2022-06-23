@@ -1,39 +1,62 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose from 'mongoose';
 
+import { COMMON_TRANSLATIONS } from '@/yup';
+
+import { passwordFieldValidation } from '../auth/fieldsValidation';
 import { userEmailValidation, userPhoneValidation } from './fieldValidation';
 import { User } from './types';
 
-interface UserSchema extends User {
+export interface UserSchemaInput extends User {
   password: string;
 }
 
-const userSchema = new mongoose.Schema<UserSchema>({
-  email: {
-    type: String,
-    validate: userEmailValidation.required().isValidSync,
-    required: true,
+const UserSchema = new mongoose.Schema<UserSchemaInput>(
+  {
+    email: {
+      type: String,
+      unique: true,
+      validate: {
+        validator: (p: string) =>
+          userEmailValidation.required().validateSync(p),
+      },
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+    },
+    phone: {
+      type: String,
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+      validate: {
+        validator: (p: string) => userPhoneValidation.validate(p),
+      },
+    },
+    name: {
+      type: String,
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+    },
+    surname: {
+      type: String,
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+    },
+    password: {
+      type: String,
+      validate: {
+        validator: (p: string) => passwordFieldValidation.validate(p),
+      },
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+    },
+    alias: {
+      type: String,
+      required: [true, COMMON_TRANSLATIONS.mixed.required],
+    },
   },
-  phone: {
-    type: String,
-    required: true,
-    validate: userPhoneValidation.required().isValidSync,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  surname: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
-const loadModel = () => mongoose.model('User', userSchema);
+export type UserSchemaData = mongoose.InferSchemaType<typeof UserSchema>;
 
-export default (mongoose.models.User || loadModel()) as ReturnType<
+const loadModel = () => mongoose.model('User', UserSchema);
+
+const UserModel = (mongoose.models.User || loadModel()) as ReturnType<
   typeof loadModel
 >;
+
+export default UserModel;

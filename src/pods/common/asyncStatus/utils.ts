@@ -19,13 +19,9 @@ export const makeLoadingAsyncStatus = <Data>(
   data,
 });
 
-export const makeErrorAsyncStatus = <Err, Data>(
-  err: Err,
-  data: Data | null = null
-): ErrorAsyncStatus<Err, Data> => ({
+export const makeErrorAsyncStatus = <Err>(err: Err): ErrorAsyncStatus<Err> => ({
   type: 'error',
   error: err,
-  data,
 });
 
 export const makeSuccessAsyncStatus = <Data>(

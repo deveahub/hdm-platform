@@ -1,16 +1,16 @@
-import jwt from 'jsonwebtoken';
 import { NextApiHandler } from 'next';
 import { ApiError } from 'next/dist/server/api-utils';
 
 import connectDBMiddleware from '@/pods/api/middlewares/connectDBMiddleware';
-import { LoginAPIResponse } from '@/pods/user/types';
-import userModel from '@/pods/user/userModel';
+import userModel from '@/pods/user/UserModel';
 
 import encrypt from './encrypt';
+import jwt from './jwt';
 import loginValidationSchema from './loginValidationSchema';
+import { LoginAPIResponse } from './types';
 
 const loginAPI: NextApiHandler<LoginAPIResponse> = async (req, res) => {
-  const loginValues = await loginValidationSchema.validate(req.body);
+  const loginValues = await loginValidationSchema.validate(req.body || {});
   const user = await userModel.findOne({
     email: loginValues.email,
   });
@@ -27,12 +27,10 @@ const loginAPI: NextApiHandler<LoginAPIResponse> = async (req, res) => {
     throw new ApiError(401, 'Contraseña incorrecta');
   }
 
-  const token = jwt.sign(
-    {
-      _id: user._id,
-    },
-    process.env.API_SECRET_CREATE_TOKEN,
-    { expiresIn: loginValues.keepSession ? '10d' : '1h' }
+  const token = jwt.signAccess(
+    user._id,
+    loginValues.keepSession ? '10d' : '3h',
+    user.password
   );
 
   res.json({

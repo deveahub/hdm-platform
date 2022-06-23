@@ -1,6 +1,6 @@
 class RequestError extends Error {
-  constructor(msg: string) {
-    super(msg);
+  constructor(message: string) {
+    super(message);
     this.name = 'RequestError';
   }
 }

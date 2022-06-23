@@ -11,63 +11,65 @@ import Spinner from '@/components/Spinner';
 import Stack from '@/components/Stack';
 import TextError from '@/components/TextError';
 import loginValidationSchema, {
-	LOGIN_VALIDATION_SCHEMA_INITIAL_VALUES,
-	LoginValidationSchemaValues,
+  LOGIN_VALIDATION_SCHEMA_INITIAL_VALUES,
+  LoginValidationSchemaValues,
 } from '@/pods/auth/loginValidationSchema';
 import useLogin from '@/pods/auth/useLogin';
 import userAtom from '@/pods/user/userAtom';
 
 const LoginForm = () => {
-	const user = useRecoilValue(userAtom);
-	const login = useLogin();
+  const user = useRecoilValue(userAtom);
+  const login = useLogin();
 
-	const onSubmit = async (
-		loginValues: LoginValidationSchemaValues,
-		{ setSubmitting }: FormikHelpers<LoginValidationSchemaValues>
-	) => {
-		await login(loginValues);
-		setSubmitting(false);
-	};
+  const onSubmit = async (
+    loginValues: LoginValidationSchemaValues,
+    { setSubmitting }: FormikHelpers<LoginValidationSchemaValues>
+  ) => {
+    await login(loginValues);
+    setSubmitting(false);
+  };
 
-	return (
-		<Formik
-			validationSchema={loginValidationSchema}
-			initialValues={LOGIN_VALIDATION_SCHEMA_INITIAL_VALUES}
-			onSubmit={onSubmit}
-		>
-			{({ submitCount, isValid, isSubmitting }) => (
-				<Stack fullWidth as={Form} direction="column" spacing={2}>
-					<FieldSet>
-						<FormInput
-							type="email"
-							label="Correo electronico"
-							name="email"
-							placeholder="usuario@correo.com"
-							autoComplete="email"
-						/>
-						<FormInput
-							type="password"
-							label="Contraseña"
-							name="password"
-							placeholder="Contraseña"
-							autoComplete="current-password"
-						/>
-						<FormCheckBox name="keepSession" label="Mantener sesión activa" />
-					</FieldSet>
-					{user.type === 'error' && <TextError>{user.error}</TextError>}
-					<Button
-						disabled={(Boolean(submitCount) && !isValid) || isSubmitting}
-						type="submit"
-					>
-						{isSubmitting ? <Spinner /> : 'Acceder'}
-					</Button>
-					<Link shallow href="/auth/reset-password" passHref>
-						<AnchorLink primary>He olvidado mi contraseña</AnchorLink>
-					</Link>
-				</Stack>
-			)}
-		</Formik>
-	);
+  return (
+    <Formik
+      validationSchema={loginValidationSchema}
+      initialValues={LOGIN_VALIDATION_SCHEMA_INITIAL_VALUES}
+      onSubmit={onSubmit}
+    >
+      {({ submitCount, isValid, isSubmitting }) => (
+        <Stack fullWidth as={Form} direction="column" spacing={2}>
+          <FieldSet>
+            <FormInput
+              type="email"
+              label="Correo electrónico"
+              name="email"
+              placeholder="usuario@correo.com"
+              autoComplete="email"
+            />
+            <FormInput
+              type="password"
+              label="Contraseña"
+              name="password"
+              placeholder="Contraseña"
+              autoComplete="current-password"
+            />
+            <FormCheckBox name="keepSession" label="Mantener sesión activa" />
+          </FieldSet>
+          {user.type === 'error' && typeof user.error === 'string' && (
+            <TextError>{user.error}</TextError>
+          )}
+          <Button
+            disabled={(Boolean(submitCount) && !isValid) || isSubmitting}
+            type="submit"
+          >
+            {isSubmitting ? <Spinner /> : 'Acceder'}
+          </Button>
+          <Link shallow href="/auth/direct-login" passHref>
+            <AnchorLink primary>Acceder sin contraseña</AnchorLink>
+          </Link>
+        </Stack>
+      )}
+    </Formik>
+  );
 };
 
 export default LoginForm;

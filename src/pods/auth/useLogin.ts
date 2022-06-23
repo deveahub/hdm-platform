@@ -1,6 +1,6 @@
 import { useSetRecoilState } from 'recoil';
 
-import { makeLoadingAsyncStatus } from '../asyncStatus';
+import { makeLoadingAsyncStatus } from '../common/asyncStatus';
 import userAtom from '../user/userAtom';
 import login from './login';
 import { LoginValidationSchemaValues } from './loginValidationSchema';
